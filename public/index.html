@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="shortcut icon" href="./favicon.png">
+    <title>BadgerLoop</title>
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+            margin: 0px;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .webvr-button{
+            background-color: rgba(51, 255, 104, 0.36) !important;
+            width: 20px !important;
+            height: 20px !important;
+            border-radius: 40px;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+
+<script>
+
+    /*
+     * Debug parameters.
+     */
+    WebVRConfig = {
+        /**
+         * webvr-polyfill configuration
+         */
+
+        // Forces availability of VR mode.
+        //FORCE_ENABLE_VR: true, // Default: false.
+        // Complementary filter coefficient. 0 for accelerometer, 1 for gyro.
+        //K_FILTER: 0.98, // Default: 0.98.
+        // How far into the future to predict during fast motion.
+        //PREDICTION_TIME_S: 0.040, // Default: 0.040 (in seconds).
+        // Flag to disable touch panner. In case you have your own touch controls
+        //TOUCH_PANNER_DISABLED: true, // Default: false.
+        // Enable yaw panning only, disabling roll and pitch. This can be useful for
+        // panoramas with nothing interesting above or below.
+        //YAW_ONLY: true, // Default: false.
+        // Enable the deprecated version of the API (navigator.getVRDevices).
+        //ENABLE_DEPRECATED_API: true, // Default: false.
+        // Scales the recommended buffer size reported by WebVR, which can improve
+        // performance. Making this very small can lower the effective resolution of
+        // your scene.
+        //BUFFER_SCALE: 0.5, // default: 1.0
+        // Allow VRDisplay.submitFrame to change gl bindings, which is more
+        // efficient if the application code will re-bind it's resources on the
+        // next frame anyway.
+        // Dirty bindings include: gl.FRAMEBUFFER_BINDING, gl.CURRENT_PROGRAM,
+        // gl.ARRAY_BUFFER_BINDING, gl.ELEMENT_ARRAY_BUFFER_BINDING,
+        // and gl.TEXTURE_BINDING_2D for texture unit 0
+        // Warning: enabling this might lead to rendering issues.
+        //DIRTY_SUBMIT_FRAME_BINDINGS: true // default: false
+    };
+</script>
+
+    <!--
+  A polyfill for Promises. Needed for IE and Edge.
+  -->
+    <script src="lib/es6-promise.js"></script>
+
+    <!--
+      three.js 3d library
+      -->
+    <script src="lib/three.js"></script>
+
+    <!--
+      VRControls.js acquires positional information from connected VR devices and applies the transformations to a three.js camera object.
+       -->
+    <script src="lib/VRControls.js"></script>
+
+    <!--
+      VREffect.js handles stereo camera setup and rendering.
+      -->
+    <script src="lib/VREffect.js"></script>
+
+    <!--
+      A polyfill for WebVR using the Device{Motion,Orientation}Event API.
+      Needs source files
+      TODO: get withouth source
+      -->
+    <script src="lib/webvr-polyfill/build/webvr-polyfill.js"></script>
+
+    <!--
+      Helps enter and exit VR mode, provides best practices while in VR.
+      -->
+    <script src="lib/webvr-manager.js"></script>
+        
+    <!--
+      Used to show if browser supports WebGL
+    -->
+    <script src="lib/Detector.js"></script>
+
+    <!--
+      Used to load .dae models
+    -->
+    <script src="lib/ColladaLoader.js"></script>
+    <script src="lib/MTLLoader.js"></script>
+    <script src="lib/OBJLoader.js"></script>
+    
+    <script src="javascript/EventFunctions.js" type="application/javascript"></script>
+    <script src="javascript/main.js" type="application/javascript"></script>
+
+</html>

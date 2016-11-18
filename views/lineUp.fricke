@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frickality Maps</title>
+    <script src="../javascript/room3.js" type="application/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            margin: 0px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #viewport { width: 100%; height: 100%; }
+    </style>
+</head>
+
+<script>
+    var imageNumber;
+    var canvas,context;
+    function init() {
+        imageNumber = #image#;
+        canvas = document.getElementById('viewport');
+        context = canvas.getContext('2d');
+
+        var image = new Image();
+        image.src = '/images/' + imageNumber +'.jpg';
+        image.onload = function() {
+            // context.drawImage(base_image, 0, 0, 409.6, 204.8, 0, 0, window.innerWidth, window.innerHeight);
+            var img = {width: 4096, height: 2048};
+
+            var hRatio = canvas.width / img.width;
+            var vRatio = canvas.height / img.height;
+            var ratio = Math.min(hRatio, vRatio);
+            var centerShift_x = ( canvas.width - img.width * ratio ) / 2;
+            var centerShift_y = ( canvas.height - img.height * ratio ) / 2;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0, img.width, img.height,
+                    centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        }
+        canvas.addEventListener("mousedown", getNormalizedPos);
+
+    }
+
+</script>
+
+<body onload="init()">
+<canvas id="viewport"></canvas>
+<button id="clearRoom">Clear Room</button>
+<input type="textbox" style="width:20px" id="adjacentRoom"> <- adj room</input>
+<button id="addAdjacent">Add Adjacent</button>
+<!--<button id="adjacentBox">Add Box</button>-->
+<button id="save">Save</button>
+</body>
+
+<script>
+    var x, y, xx, yy, lastAdj;
+    var state = -1;
+
+    function getNormalizedPos (event) {
+        event = event || window.event;
+        //normalizes
+        x = (event.pageX - canvas.offsetLeft) / event.toElement.clientWidth;
+        y = (event.pageY - canvas.offsetTop) / event.toElement.clientHeight;
+
+        if (state == 0) {
+            addTo();
+            state = -1;
+        } else {
+            console.log("x: " + x + " y: " + y);
+            return;
+        }
+    }
+
+    document.getElementById('clearRoom').onclick = function() {
+        room[imageNumber].adjacent = [];
+        console.log("CLEARED: " + room[imageNumber].adjacent);
+    };
+
+    document.getElementById('addAdjacent').onclick = function() {
+        var adjRoom = document.getElementById("adjacentRoom").value;
+        room[imageNumber].adjacent.push({room: adjRoom});
+        lastAdj = room[imageNumber].adjacent.length - 1;
+        console.log("adjacent added " + adjRoom);
+        state = 0 //turns next click into a addTo()
+    };
+
+    var addTo = function() {
+        var adjRoom = document.getElementById("adjacentRoom").value;
+        room[imageNumber].adjacent[lastAdj].toUpRotate = y;
+        room[imageNumber].adjacent[lastAdj].toSideRotate = x;
+        console.log("to-box added " + "x: " + x + " y: " + y);
+
+        //gets the from xx and yy
+        if (x < .5) {
+            xx = x + .5;
+        } else {
+            xx = x - .5;
+        }
+
+       /* xx = x - .5;
+        if (xx < 0) {
+            xx = 1 + xx; //takes neg values and substract from 1
+        }*/
+        yy = .5 +  (.5 - y);
+
+        room[imageNumber].adjacent[lastAdj].fromUpRotate = yy;
+        room[imageNumber].adjacent[lastAdj].fromSideRotate = xx;
+        console.log("from-box added " + "x: " + xx + " y: " + yy);
+    };
+
+
+    document.getElementById('save').onclick = function() {
+        var postData = {"jsonString" : JSON.stringify(room)};
+        $.post( "/", postData , function( data, status ) {
+            console.log( "saved " + status );
+        }, "json");
+    };
+</script>
+</html>

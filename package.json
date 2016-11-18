@@ -1,0 +1,29 @@
+{
+  "name": "hyperloop_vr_speed_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+    "dependencies": {
+    "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.4.2",
+    "express": "^4.13.4",
+    "fs": "0.0.2",
+    "http": "0.0.0",
+    "morgan": "^1.7.0",
+    "path": "^0.12.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjfricke/Hyperloop_VR_Speed_Demo.git"
+  },
+  "author": "Spencer Fricke",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sjfricke/Hyperloop_VR_Speed_Demo/issues"
+  },
+  "homepage": "https://github.com/sjfricke/Hyperloop_VR_Speed_Demo#readme"
+}
